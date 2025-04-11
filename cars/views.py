@@ -4,8 +4,13 @@ from .forms import CarForm, CarImageForm
 from django.contrib.auth.decorators import login_required
 
 def car_list(request):
-    cars = Car.objects.filter(status='approved')
-    brands = Brand.objects.all()
+    try:
+        cars = Car.objects.filter(status='approved')
+        brands = Brand.objects.all()
+    except Exception as e:
+        print(f"Error: {e}")
+        cars = []
+        brands = []
     return render(request, 'cars/car_list.html', {'cars': cars, 'brands': brands})
 
 def car_detail(request, pk):
