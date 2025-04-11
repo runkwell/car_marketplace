@@ -1,0 +1,10 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+    <h1>Post a Car</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ car_form.as_p }}
+        {{ image_form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}
