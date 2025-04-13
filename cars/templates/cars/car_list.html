@@ -1,6 +1,45 @@
 {% extends 'cars/base.html' %}
 {% block content %}
     <h1>Car Listings</h1>
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col-md-3">
+                <input type="text" name="q" class="form-control" placeholder="Search by model or brand" value="{{ query }}">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="price_min" class="form-control" placeholder="Min Price" value="{{ price_min }}">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="price_max" class="form-control" placeholder="Max Price" value="{{ price_max }}">
+            </div>
+            <div class="col-md-2">
+                <select name="brand" class="form-control">
+                    <option value="">All Brands</option>
+                    {% for brand in brands %}
+                        <option value="{{ brand.id }}" {% if selected_brand == brand.id|stringformat:"s" %}selected{% endif %}>
+                            {{ brand.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="condition" class="form-control">
+                    <option value="">All Conditions</option>
+                    <option value="new" {% if condition == "new" %}selected{% endif %}>New</option>
+                    <option value="used" {% if condition == "used" %}selected{% endif %}>Used</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="location" class="form-control" placeholder="Location" value="{{ location }}">
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
     <div class="row">
         {% for car in cars %}
             <div class="col-md-4 mb-4">
@@ -12,7 +51,11 @@
                         <h5 class="card-title">{{ car.brand }} {{ car.model }} ({{ car.year }})</h5>
                         <p class="card-text">Price: ${{ car.price }}</p>
                         <p class="card-text">Location: {{ car.location }}</p>
+                        <p class="card-text">Mileage: {% if car.mileage %}{{ car.mileage }} km{% else %}N/A{% endif %}</p>
                         <a href="{% url 'car_detail' car.pk %}" class="btn btn-primary">View Details</a>
+                        {% if car.status == 'approved' %}
+                            <a href="{% url 'buy_car' car.pk %}" class="btn btn-success">Buy</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

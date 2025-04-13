@@ -29,6 +29,17 @@ def post_car(request):
             image = image_form.save(commit=False)
             image.car = car
             image.save()
+	    # Tạo thông báo cho user "root" nếu người đăng không phải root
+            if request.user.username != 'root':
+                root_user = User.objects.get(username='root')
+                Notification.objects.create(
+                    user=root_user,
+                    message=f"New car posted by {request.user.username}: {car.brand} {car.model}. Please review.",
+                    car=car
+                )
+            
+            messages.success(request, 'Car posted successfully! Waiting for approval.')
+
             return redirect('car_list')
     else:
         car_form = CarForm()

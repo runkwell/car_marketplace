@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Brand(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    logo_url = models.URLField(blank=True, null=True)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -16,20 +15,19 @@ class Car(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
-        ('sold', 'Sold'),
+        ('rejected', 'Rejected'),
+        ('sold', 'Sold'),  # Thêm trạng thái sold
     ]
-
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     model = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=15, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     year = models.IntegerField()
     condition = models.CharField(max_length=10, choices=CONDITION_CHOICES)
-    mileage = models.IntegerField(blank=True, null=True)
     location = models.CharField(max_length=100)
     description = models.TextField()
+    mileage = models.IntegerField(null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.brand} {self.model} ({self.year})"
@@ -40,3 +38,13 @@ class CarImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.car}"
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"Notification for {self.user.username}: {self.message}"

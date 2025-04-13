@@ -3,15 +3,16 @@
     <h1>{{ car.brand }} {{ car.model }} ({{ car.year }})</h1>
     <div class="row">
         <div class="col-md-6">
-            {% if car.images.first %}
-                <img src="{{ car.images.first.image.url }}" class="img-fluid" alt="{{ car.model }}">
-            {% endif %}
+            {% for image in car.images.all %}
+                <img src="{{ image.image.url }}" class="img-fluid mb-2" alt="{{ car.model }}">
+            {% endfor %}
         </div>
         <div class="col-md-6">
             <p><strong>Price:</strong> ${{ car.price }}</p>
             <p><strong>Condition:</strong> {{ car.get_condition_display }}</p>
             <p><strong>Year:</strong> {{ car.year }}</p>
             <p><strong>Location:</strong> {{ car.location }}</p>
+            <p><strong>Mileage:</strong> {% if car.mileage %}{{ car.mileage }} km{% else %}N/A{% endif %}</p>
             <p><strong>Description:</strong> {{ car.description }}</p>
         </div>
     </div>
