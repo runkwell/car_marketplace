@@ -36,7 +36,7 @@ class Car(models.Model):
 
 class CarImage(models.Model):
     car = models.ForeignKey(Car, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='car_images/')
+    image = models.ImageField(upload_to='images/')
 
     def __str__(self):
         return f"Image for {self.car}"
