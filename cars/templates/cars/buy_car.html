@@ -1,0 +1,21 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+    <h1>Buy {{ car.brand }} {{ car.model }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="buyer_name" class="form-label">Your Name</label>
+            <input type="text" name="buyer_name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="buyer_email" class="form-label">Your Email</label>
+            <input type="email" name="buyer_email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="buyer_phone" class="form-label">Your Phone</label>
+            <input type="text" name="buyer_phone" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+        <a href="{% url 'car_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

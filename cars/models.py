@@ -48,3 +48,13 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.username}: {self.message}"
+
+class PurchaseRequest(models.Model):
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    buyer_name = models.CharField(max_length=100)
+    buyer_email = models.EmailField()
+    buyer_phone = models.CharField(max_length=15)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Purchase request for {self.car} by {self.buyer_name}"

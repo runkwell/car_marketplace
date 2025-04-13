@@ -21,11 +21,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'notifications' %}">
                                     Notifications
-                                    {% with notifications=user.notification_set.filter(is_read=False) %}
-                                        {% if notifications %}
-                                            <span class="badge bg-danger">{{ notifications.count }}</span>
-                                        {% endif %}
-                                    {% endwith %}
+                                    {% if unread_notifications_count > 0 %}
+                                        <span class="badge bg-danger">{{ unread_notifications_count }}</span>
+                                    {% endif %}
                                 </a>
                             </li>
                         {% endif %}

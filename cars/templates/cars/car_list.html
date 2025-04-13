@@ -1,6 +1,7 @@
 {% extends 'cars/base.html' %}
 {% block content %}
     <h1>Car Listings</h1>
+    <!-- Form tìm kiếm (đã có từ trước) -->
     <form method="get" class="mb-4">
         <div class="row">
             <div class="col-md-3">
@@ -51,7 +52,6 @@
                         <h5 class="card-title">{{ car.brand }} {{ car.model }} ({{ car.year }})</h5>
                         <p class="card-text">Price: ${{ car.price }}</p>
                         <p class="card-text">Location: {{ car.location }}</p>
-                        <p class="card-text">Mileage: {% if car.mileage %}{{ car.mileage }} km{% else %}N/A{% endif %}</p>
                         <a href="{% url 'car_detail' car.pk %}" class="btn btn-primary">View Details</a>
                         {% if car.status == 'approved' %}
                             <a href="{% url 'buy_car' car.pk %}" class="btn btn-success">Buy</a>

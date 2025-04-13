@@ -1,0 +1,23 @@
+{% extends 'cars/base.html' %}
+{% block content %}
+    <h1>Notifications</h1>
+    {% if notifications %}
+        <ul class="list-group">
+            {% for notification in notifications %}
+                <li class="list-group-item {% if not notification.is_read %}list-group-item-warning{% endif %}">
+                    {{ notification.message }}
+                    {% if notification.car and not notification.is_read %}
+                        {% if notification.car.status == 'pending' %}
+                            <a href="{% url 'approve_car' notification.car.id %}" class="btn btn-success btn-sm float-end">Approve</a>
+                        {% elif notification.car.status == 'approved' %}
+                            <a href="{% url 'mark_sold' notification.car.id %}" class="btn btn-primary btn-sm float-end">Mark as Sold</a>
+                        {% endif %}
+                    {% endif %}
+                    <small class="text-muted float-end me-2">{{ notification.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No notifications available.</p>
+    {% endif %}
+{% endblock %}
